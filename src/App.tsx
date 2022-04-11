@@ -1,11 +1,10 @@
 import React from 'react';
+import HomePage from './pages/HomePage'
+
 
 function App() {
-  return (
-    <div className="App">
-      <h1 className = "text-3x1 font-bold underline text-blue-500">Building Something Cool!!!!</h1>
-    </div>
-  );
+
+  return <HomePage />;
 }
 
 export default App;
