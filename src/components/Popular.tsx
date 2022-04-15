@@ -18,7 +18,7 @@ const Popular: FC = () => {
 
   return (
     <div>
-      <div className="p-4">
+      <div className="p-4 bg-blue-200">
         <h4 className="font-bold text-2xl mb-4">Popular Locations</h4>
         <div className="flex">
           {hotels.map((hotel) => {

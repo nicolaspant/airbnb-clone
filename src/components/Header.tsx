@@ -33,15 +33,26 @@ const Header: FC = () => {
   };
 
   return (
-    <header className="flex justify-between px-2 py-2 bg-white shadow-md">
+    <header className="flex justify-end px-2 py-2 bg-white shadow-md">
       <Link to="/">
-        <img className="w-12" src="/images/airbnblogo.png" alt="Logo" />
+        <img className="w-10 absolute left-0" src="/images/airbnblogo.png" alt="Logo" />
       </Link>
+
+
+     
+      <Link to ="/termsofservice" className = "text-blue-400 first-line:flex items-center px-2 py-2 text-xs border-2 border-blue-400 rounded-md">
+        Terms of Service
+      </Link>
+
+      <Link to ="/privacypolicy" className = "text-blue-400 flex items-center px-2 py-2 mr-3 ml-1 text-xs border-2 border-blue-400 rounded-md">
+        Privacy Policy
+      </Link>
+
 
       {!authenticated ? (
         <Link
           to="/login"
-          className="flex items-center justify-center text-xs border-2 border-blue-500 rounded-md px-4"
+          className="flex items-center justify-center text-xs border-2 border-blue-500 bg-blue-300 rounded-md px-4"
         >
           Login
         </Link>
@@ -55,6 +66,7 @@ const Header: FC = () => {
             Logout
           </button>
         </div>
+        
       )}
     </header>
   );

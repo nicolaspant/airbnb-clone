@@ -156,6 +156,9 @@ const RegisterPage: FC = () => {
               </button>
             </div>
           </form>
+          <div className ="text-xs" >
+          By continuing you agree to our Terms of Service and Privacy Policy, and you consent to receive offers and opportunities from AirBNB Clone by email.
+          </div>
         </div>
       </div>
     </div>

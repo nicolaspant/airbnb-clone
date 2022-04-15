@@ -16,8 +16,8 @@ const FeaturedLocations: FC = () => {
   }, []);
 
   return (
-    <div className="p-4">
-      <h4 className="font-bold text-2xl mb-4">Featured Locations</h4>
+    <div className="p-4 bg-blue-200">
+      <h4 className="font-bold text-2xl mb-4 ">Featured Locations</h4>
       <div className="flex">
         {hotels.map((hotel) => {
           return (
