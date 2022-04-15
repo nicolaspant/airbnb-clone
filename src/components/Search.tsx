@@ -1,51 +1,69 @@
-import { Fragment, useState, FC, useEffect } from 'react';
+import { Fragment, useState, useEffect, FC } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
-import {firestore} from '../firestore';
-import { collection, doc, getDocs } from 'firebase/firestore';
+import { firestore } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
-// const locations = [
-//   { id: 1, name: 'Paris' },
-//   { id: 2, name: 'New York' },
-//   { id: 3, name: 'London' },
-//   { id: 4, name: 'Hong Kong' },
-//   { id: 5, name: 'Los Angeles' },
-//   { id: 6, name: 'Tokyo' },
+// const locations = [ // locations -> collection
+//   { id: 1, name: 'Paris' }, // row -> document
+//   { id: 2, name: 'New York' }, // row -> document
+//   { id: 3, name: 'London' }, // row -> document
+//   { id: 4, name: 'Bangkok' },
+//   { id: 5, name: 'Dubai' },
+//   { id: 6, name: 'Hong kong' },
+//   { id: 7, name: 'Kathmandu' },
 // ];
 
 interface Location {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 }
 
 const Search: FC = () => {
-  const [selected, setSelected] = useState({name: "Select Location",});
-
+  const [selected, setSelected] = useState<Location>({
+    id: 0,
+    name: 'Select Location',
+  });
   const [query, setQuery] = useState('');
-
-  const [locations, setLocations ] = useState <Location[]> ([]);
+  const [locations, setLocations] = useState<Location[]>([]);
 
   useEffect(() => {
+    // from the `locations` collection of the firestore database get me the ref.
+    const locationsRef = collection(firestore, 'locations'); // we need locations data
+    // get all the docs from `locationsRef`
+    getDocs(locationsRef).then((data) => {
+      // getting the data
+      /*
+        [{
+          meta: ....,
+          otherProps ....,
+          data() {
+            return actualData;
+          }
+        }, {
+          meta: ...,
+          otherProps: .....,
+          data() {
+            return actualData
+          }
+        }]
 
-      const locationsRef = collection(firestore, 'locations')
-
-      getDocs(locationsRef).then((data) => {
-
-          const locationsData = data.docs.map((doc) => doc.data());
-        setLocations(locationsData as any);
-      });
-
+      */
+      const locationsData = data.docs.map((doc) => doc.data());
+      setLocations(locationsData as any);
+    });
   }, []);
 
   const filteredLocations =
     query === ''
       ? locations
-      : locations.filter((location) =>
-          location.name
+      : locations.filter((person) =>
+          person.name
             .toLowerCase()
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, '')),
         );
+
   return (
     <div className="w-72">
       <Combobox value={selected} onChange={setSelected}>
@@ -76,15 +94,15 @@ const Search: FC = () => {
                   Nothing found.
                 </div>
               ) : (
-                filteredLocations.map((location) => (
+                filteredLocations.map((person) => (
                   <Combobox.Option
-                    key={location.id}
+                    key={person.id}
                     className={({ active }) =>
                       `cursor-default select-none relative py-2 pl-10 pr-4 ${
                         active ? 'text-white bg-teal-600' : 'text-gray-900'
                       }`
                     }
-                    value={location}
+                    value={person}
                   >
                     {({ selected, active }) => (
                       <>
@@ -93,7 +111,7 @@ const Search: FC = () => {
                             selected ? 'font-medium' : 'font-normal'
                           }`}
                         >
-                          {location.name}
+                          {person.name}
                         </span>
                         {selected ? (
                           <span
